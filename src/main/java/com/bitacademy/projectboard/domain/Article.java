@@ -36,9 +36,9 @@ import lombok.ToString;
 		@Index(columnList = "createdBy"),
 }) // 검색을 하기 위함. 
 
-@EntityListeners(AuditingEntityListener.class)
+
 @Entity
-public class Article {
+public class Article extends AuditingFields { // 추출한 공통 data 상속으로 연결 
 	
 	@Id // primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // mysql auto increment type
@@ -58,17 +58,6 @@ public class Article {
 	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
 	private final Set<Article_Comment> article_Comments = new LinkedHashSet<>();
 	
-	
-	
-	//Meta Data
-	// setter x = 자동으로 JPA가 setting하도록 해야함 / 임의로 수정 불가 하도록 한다 
-	// 자동으로 setting 해주는 기술 = JPA Auditing
-	// 생성 일시, 생성자 = 최초 insert
-	// 수정 일시, 수정자 = 실시간 update
-	@CreatedDate @Column(nullable = false) private LocalDateTime createdAt; // 생성 일시 
-	@CreatedBy @Column(nullable = false, length = 100) private String createdBy; // 생성자 = 인증기능설정(JPA config)
-	@LastModifiedDate @Column(nullable = false) private LocalDateTime modifiedAt; // 수정일시 
-	@LastModifiedBy @Column(nullable = false, length = 100) private String modifiedBy; // 수정자 
 	
 	// Hibernate 구현체 사용하면 기본 생성자를 가지고 있어야 한다. 
 	// 기본 생성자는 평소에 구현하지 않을거니까 protected로 생성 (privat은 오류) 
