@@ -20,7 +20,7 @@ import lombok.ToString;
 @ToString
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
-public class AuditingFields {
+public abstract class AuditingFields {
 
 	//Meta Data
 	// setter x = 자동으로 JPA가 setting하도록 해야함 / 임의로 수정 불가 하도록 한다 
