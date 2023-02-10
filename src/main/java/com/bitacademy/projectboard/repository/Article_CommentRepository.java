@@ -1,5 +1,7 @@
 package com.bitacademy.projectboard.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
@@ -16,6 +18,8 @@ public interface Article_CommentRepository extends
 	JpaRepository<Article_Comment, Long>, 
 	QuerydslPredicateExecutor<Article_Comment>, 
 	QuerydslBinderCustomizer<QArticle_Comment> {
+		
+	List<Article_Comment> findByArticle_Id(Long articleId);
 		
 	@Override
 	default void customize(QuerydslBindings bindings, QArticle_Comment root) {

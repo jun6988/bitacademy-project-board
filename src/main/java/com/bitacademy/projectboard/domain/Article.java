@@ -1,6 +1,5 @@
 package com.bitacademy.projectboard.domain;
 
-import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -8,27 +7,21 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
-
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter // 모든 빌드는 접근이 가능해야한다. 
-@ToString // 쉽게 출력하기 위함. 
+@ToString(callSuper = true) // 쉽게 출력하기 위함. 
 @Table(indexes = {
 		@Index(columnList = "title"),
 		@Index(columnList = "hashtag"),
@@ -44,6 +37,8 @@ public class Article extends AuditingFields { // 추출한 공통 data 상속으
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // mysql auto increment type
 	private Long id;
 	
+	@Setter @ManyToOne(optional = false) private UserAccount userAccount; // 유저 정보 (ID)
+	
 	// not null
 	// Setter = 도메인에서 수정 가능, 각 필드에 거는 이유 : 사용자가 특정 필드에 접근하지 못하도록 한다 ex. id 
 	@Setter @Column(nullable = false) private String title; // 제목 
@@ -54,7 +49,7 @@ public class Article extends AuditingFields { // 추출한 공통 data 상속으
 	
 	// 양방향 Binding Data Mapping
 	@ToString.Exclude
-	@OrderBy("id")
+	@OrderBy("createdAt DESC")
 	@OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
 	private final Set<Article_Comment> article_Comments = new LinkedHashSet<>();
 	
@@ -73,15 +68,16 @@ public class Article extends AuditingFields { // 추출한 공통 data 상속으
 	protected Article() {}
 
 	// 도메인에서 생성자를 통해  관련 있는 정보만 open하기 위해서 생성 (나머지는 자동 생성). 
-	private Article(String title, String content, String hashtag) {
+	private Article(UserAccount userAccount, String title, String content, String hashtag) {
+		this.userAccount = userAccount;
 		this.title = title;
 		this.Content = content;
 		this.hashtag = hashtag;
 	}
 	
 	// 위 생성자 쉽게 사용하기 위함. 
-	public static Article of(String title, String content, String hashtag) {
-		return new Article(title, content, hashtag);
+	public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
+		return new Article(userAccount, title, content, hashtag);
 	}
 	
 	

@@ -2,10 +2,6 @@ package com.bitacademy.projectboard.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +10,7 @@ import org.springframework.context.annotation.Import;
 
 import com.bitacademy.projectboard.config.JpaConfig;
 import com.bitacademy.projectboard.domain.Article;
+import com.bitacademy.projectboard.domain.UserAccount;
 
 @DisplayName("JPA 연결 테스트")
 @Import(JpaConfig.class)
@@ -22,29 +19,36 @@ class JpaRepositoryTest {
 
 	private final ArticleRepository articleRepository;
 	private final Article_CommentRepository article_CommentRepository;
+	private final UserAccountRepository userAccountRepository;
 
 	public JpaRepositoryTest (
 			@Autowired ArticleRepository articleRepository,
-			@Autowired Article_CommentRepository article_CommentRepository
+			@Autowired Article_CommentRepository article_CommentRepository,
+			@Autowired UserAccountRepository userAccountRepository
 	) {
 		this.articleRepository = articleRepository;
 		this.article_CommentRepository = article_CommentRepository;
+		this.userAccountRepository = userAccountRepository;
 	}
 	
 	@DisplayName("select 테스트")
 	@Test
 	void givenTestData_whenSelecting_thenWorksFine() {
 		// Given
+		long previousCount = articleRepository.count();
+		UserAccount userAccount = userAccountRepository.save(UserAccount.of("june", "pw", null, null, null));
+		Article article = Article.of(userAccount, "new article", "new content", "#spring");
 		
 		// When
 		// findall한 내용을 List에 넣고 Article이란 도메인으로 받아와야한다.   
-		List<Article> articles = articleRepository.findAll();
+		//List<Article> articles = articleRepository.findAll();
+		articleRepository.save(article);
+		
 		
 		// Then
 		// assertj로 테스트 
-		assertThat(articles)
-				.isNotNull()
-				.hasSize(0);
+		assertThat(articleRepository.count()).isEqualTo(previousCount +1);
+
 	}
 	
 	@DisplayName("insert 테스트") // 기존 data보다 1씩 늘어난다. 
@@ -52,10 +56,12 @@ class JpaRepositoryTest {
 	void givenTestData_whenInserting_thenWorksFine() {
 		// Given 
 		long previousCount = articleRepository.count();
+        UserAccount userAccount = userAccountRepository.save(UserAccount.of("uno", "pw", null, null, null));
+        Article article = Article.of(userAccount, "new article", "new content", "#spring");
 		
 		// When  
 		// save한 내용을 savedArticle로 받겠다. 
-		Article savedArticle = articleRepository.save(Article.of("new article", "new content", "#spring"));
+        articleRepository.save(article);
 		
 		// Then
 		assertThat(articleRepository.count()).isEqualTo(previousCount + 1);

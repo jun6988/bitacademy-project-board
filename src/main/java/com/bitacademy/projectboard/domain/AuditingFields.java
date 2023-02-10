@@ -30,17 +30,17 @@ public abstract class AuditingFields {
 	// @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) // web화면 보여줄 때, parameter 받을 때 pathing
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) 
 	@CreatedDate @Column(nullable = false, updatable = false) // update 불가 
-	private LocalDateTime createdAt; // 생성 일시 
+	protected LocalDateTime createdAt; // 생성 일시 
 	
 	@CreatedBy 
 	@Column(nullable = false, updatable = false, length = 100) // update 불가 
-	private String createdBy; // 생성자 = 인증기능설정(JPA config)
+	protected String createdBy; // 생성자 = 인증기능설정(JPA config)
 	
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) 
 	@LastModifiedDate @Column(nullable = false) 
-	private LocalDateTime modifiedAt; // 수정일시 
+	protected LocalDateTime modifiedAt; // 수정일시 
 	
 	@LastModifiedBy 
 	@Column(nullable = false, length = 100) 
-	private String modifiedBy; // 수정자 
+	protected String modifiedBy; // 수정자 
 }
