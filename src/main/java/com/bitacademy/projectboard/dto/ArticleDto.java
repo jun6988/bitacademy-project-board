@@ -3,14 +3,10 @@ package com.bitacademy.projectboard.dto;
 import java.time.LocalDateTime;
 
 import com.bitacademy.projectboard.domain.Article;
+import com.bitacademy.projectboard.domain.UserAccount;
 
 public record ArticleDto(
-//        LocalDateTime createdAt,
-//        String createdBy,
-//        String title,
-//        String content,
-//        String hashtag
-		Long id,
+        Long id,
         UserAccountDto userAccountDto,
         String title,
         String content,
@@ -20,10 +16,15 @@ public record ArticleDto(
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
-	public static ArticleDto of(Long id, UserAccountDto userAccountDto, String title, String content, String hashtag, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
-		return new ArticleDto(id, userAccountDto, title, content, hashtag, createdAt, createdBy, modifiedAt, modifiedBy);
-	}
-	
+
+    public static ArticleDto of(UserAccountDto userAccountDto, String title, String content, String hashtag) {
+        return new ArticleDto(null, userAccountDto, title, content, hashtag, null, null, null, null);
+    }
+
+    public static ArticleDto of(Long id, UserAccountDto userAccountDto, String title, String content, String hashtag, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+        return new ArticleDto(id, userAccountDto, title, content, hashtag, createdAt, createdBy, modifiedAt, modifiedBy);
+    }
+
     public static ArticleDto from(Article entity) {
         return new ArticleDto(
                 entity.getId(),
@@ -38,12 +39,13 @@ public record ArticleDto(
         );
     }
 
-    public Article toEntity() {
+    public Article toEntity(UserAccount userAccount) {
         return Article.of(
-                userAccountDto.toEntity(),
+                userAccount,
                 title,
                 content,
                 hashtag
         );
     }
+
 }

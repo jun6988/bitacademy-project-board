@@ -26,15 +26,17 @@ import com.bitacademy.projectboard.dto.Article_CommentDto;
 import com.bitacademy.projectboard.dto.UserAccountDto;
 import com.bitacademy.projectboard.repository.ArticleRepository;
 import com.bitacademy.projectboard.repository.Article_CommentRepository;
+import com.bitacademy.projectboard.repository.UserAccountRepository;
 
 @DisplayName("비즈니스 로직 - 댓글")
 @ExtendWith(MockitoExtension.class)
-class Article_CommentServiceTest {
+class ArticleCommentServiceTest {
 
     @InjectMocks private Article_CommentService sut;
 
     @Mock private ArticleRepository articleRepository;
     @Mock private Article_CommentRepository article_CommentRepository;
+    @Mock private UserAccountRepository userAccountRepository;
 
     @DisplayName("게시글 ID로 조회하면, 해당하는 댓글 리스트를 반환한다.")
     @Test
@@ -60,6 +62,7 @@ class Article_CommentServiceTest {
         // Given
         Article_CommentDto dto = createArticle_CommentDto("댓글");
         given(articleRepository.getReferenceById(dto.articleId())).willReturn(createArticle());
+        given(userAccountRepository.getReferenceById(dto.userAccountDto().userId())).willReturn(createUserAccount());
         given(article_CommentRepository.save(any(Article_Comment.class))).willReturn(null);
 
         // When
@@ -67,6 +70,7 @@ class Article_CommentServiceTest {
 
         // Then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).should().getReferenceById(dto.userAccountDto().userId());
         then(article_CommentRepository).should().save(any(Article_Comment.class));
     }
 
@@ -82,6 +86,7 @@ class Article_CommentServiceTest {
 
         // Then
         then(articleRepository).should().getReferenceById(dto.articleId());
+        then(userAccountRepository).shouldHaveNoInteractions();
         then(article_CommentRepository).shouldHaveNoInteractions();
     }
 
@@ -124,13 +129,14 @@ class Article_CommentServiceTest {
     void givenArticleCommentId_whenDeletingArticleComment_thenDeletesArticleComment() {
         // Given
         Long article_CommentId = 1L;
-        willDoNothing().given(article_CommentRepository).deleteById(article_CommentId);
+        String userId = "uno";
+        willDoNothing().given(article_CommentRepository).deleteByIdAndUserAccount_UserId(article_CommentId, userId);
 
         // When
-        sut.deleteArticle_Comment(article_CommentId);
+        sut.deleteArticle_Comment(article_CommentId, userId);
 
         // Then
-        then(article_CommentRepository).should().deleteById(article_CommentId);
+        then(article_CommentRepository).should().deleteByIdAndUserAccount_UserId(article_CommentId, userId);
     }
 
 
