@@ -57,7 +57,7 @@
         <attr sel="li[0]/a"
               th:text="'previous'"
               th:href="@{/articles(page=${articles.number - 1}, searchType=${searchType.name}, searchValue=${param.searchValue})}"
-              th:class="'page-link' + (${articles.number}&lt; 0 ? ' disabled' : '')"
+              th:class="'page-link' + (${articles.number} &lt; 0 ? ' disabled' : '')"
         />
         <attr sel="li[1]" th:class="page-item" th:each="pageNumber : ${paginationBarNumbers}">
           <attr sel="a"
