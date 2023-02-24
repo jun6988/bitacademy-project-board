@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 
+// html thymleaf template 사용할 시 필요 
+// main application에 @ConfigurationPropertiesScan 사용 
 @Configuration
 public class ThymeleafConfig {
 

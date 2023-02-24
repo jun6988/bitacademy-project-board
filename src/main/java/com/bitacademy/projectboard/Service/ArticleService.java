@@ -97,5 +97,9 @@ public class ArticleService {
     public List<String> getHashtags() {
         return articleRepository.findAllDistinctHashtags();
     }
+    
+    public List<Article> getAll() {
+    	return articleRepository.findAll();
+    }
 
 }

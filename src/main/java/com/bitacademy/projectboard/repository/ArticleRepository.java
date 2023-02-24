@@ -14,11 +14,11 @@ import com.bitacademy.projectboard.repository.querydsl.ArticleRepositoryCustom;
 import com.querydsl.core.types.dsl.DateTimeExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 
-@RepositoryRestResource
+@RepositoryRestResource // DataRestRepository라는 것을 명시. 
 public interface ArticleRepository extends
-        JpaRepository<Article, Long>,
+        JpaRepository<Article, Long>, 
         ArticleRepositoryCustom,
-        QuerydslPredicateExecutor<Article>,
+        QuerydslPredicateExecutor<Article>, // Article 안에 모든 검색기능 활성화 
         QuerydslBinderCustomizer<QArticle> {
 
     Page<Article> findByTitleContaining(String title, Pageable pageable);
@@ -31,8 +31,9 @@ public interface ArticleRepository extends
 
     @Override
     default void customize(QuerydslBindings bindings, QArticle root) {
-        bindings.excludeUnlistedProperties(true);
+        bindings.excludeUnlistedProperties(true); // Articles에서 원하는 검색기능만 사용하기 위해 설정 후 밑에 root로 설정해줌 
         bindings.including(root.title, root.content, root.hashtag, root.createdAt, root.createdBy);
+        // 대소문자 구분 안하는 검색기능 
         bindings.bind(root.title).first(StringExpression::containsIgnoreCase);
         bindings.bind(root.content).first(StringExpression::containsIgnoreCase);
         bindings.bind(root.hashtag).first(StringExpression::containsIgnoreCase);
