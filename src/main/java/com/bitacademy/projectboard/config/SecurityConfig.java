@@ -17,6 +17,16 @@ import com.bitacademy.projectboard.repository.UserAccountRepository;
 
 @Configuration
 public class SecurityConfig {
+	
+// localhost8080/articles 찍으면 login page 안나온다. 
+//	@Bean
+//	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+//                .formLogin().and()
+//                .build();
+//	}
+//}
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

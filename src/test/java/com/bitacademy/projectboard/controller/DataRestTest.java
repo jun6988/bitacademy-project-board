@@ -40,8 +40,8 @@ public class DataRestTest {
 
         // When & Then
         mvc.perform(get("/api/articles"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.valueOf("application/hal+json")));
+                .andExpect(status().isOk()) // 잘 떨어지는지 확인 
+                .andExpect(content().contentType(MediaType.valueOf("application/hal+json"))); // 원래는 json으로만 나와야한다. 
     }
 
     @DisplayName("[api] 게시글 단건 조회")

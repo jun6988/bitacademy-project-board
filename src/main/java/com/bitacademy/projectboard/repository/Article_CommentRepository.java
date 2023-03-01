@@ -19,7 +19,9 @@ public interface Article_CommentRepository extends
         QuerydslPredicateExecutor<Article_Comment>,
         QuerydslBinderCustomizer<QArticle_Comment> {
 
-    List<Article_Comment> findByArticle_Id(Long articleId);
+    // 게시글 id를 통해 게시글id에 해당하는 댓글 리스트를 뽑는다 
+    // 댓글 요소로 검색하는 것이 아닌 게시글로 댓글 검색 
+    List<Article_Comment> findByArticle_Id(Long articleId); 
     void deleteByIdAndUserAccount_UserId(Long article_CommentId, String userId);
 
     @Override

@@ -21,6 +21,7 @@ public interface ArticleRepository extends
         QuerydslPredicateExecutor<Article>, // Article 안에 모든 검색기능 활성화 
         QuerydslBinderCustomizer<QArticle> {
 
+	// 검색 기능 
     Page<Article> findByTitleContaining(String title, Pageable pageable);
     Page<Article> findByContentContaining(String content, Pageable pageable);
     Page<Article> findByUserAccount_UserIdContaining(String userId, Pageable pageable);
@@ -31,7 +32,9 @@ public interface ArticleRepository extends
 
     @Override
     default void customize(QuerydslBindings bindings, QArticle root) {
-        bindings.excludeUnlistedProperties(true); // Articles에서 원하는 검색기능만 사용하기 위해 설정 후 밑에 root로 설정해줌 
+    	// 선택적으로 검색할 수 있는 기능을 false -> true 
+        bindings.excludeUnlistedProperties(true); 
+        // Articles에서 원하는 검색기능만 사용하기 위해 설정 후 밑에 root로 설정해줌 
         bindings.including(root.title, root.content, root.hashtag, root.createdAt, root.createdBy);
         // 대소문자 구분 안하는 검색기능 
         bindings.bind(root.title).first(StringExpression::containsIgnoreCase);

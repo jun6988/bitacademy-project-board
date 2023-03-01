@@ -29,6 +29,7 @@ public class Article_CommentService {
     private final UserAccountRepository userAccountRepository;
 
     @Transactional(readOnly = true)
+    // 댓글 리스트 조회 (id를 통해) 
     public List<Article_CommentDto> searchArticle_Comments(Long articleId) {
         return article_CommentRepository.findByArticle_Id(articleId)
                 .stream()

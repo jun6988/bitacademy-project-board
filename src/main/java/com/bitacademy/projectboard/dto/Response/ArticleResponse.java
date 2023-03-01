@@ -20,6 +20,7 @@ public record ArticleResponse(
     }
 
     public static ArticleResponse from(ArticleDto dto) {
+    	// 작성자 보여주는 것 (nickname 없으면 id) 
         String nickname = dto.userAccountDto().nickname();
         if (nickname == null || nickname.isBlank()) {
             nickname = dto.userAccountDto().userId();

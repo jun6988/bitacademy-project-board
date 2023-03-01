@@ -19,7 +19,7 @@ import lombok.ToString;
 @Getter // 각 필드에 접근 가능 
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-@MappedSuperclass
+@MappedSuperclass // AuditingFields 자체가 entity가 될 수 없고 무조건 상속을 받아야함으로 abstract
 public abstract class AuditingFields {
 
 	//Meta Data

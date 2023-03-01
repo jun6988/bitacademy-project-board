@@ -37,9 +37,13 @@ import com.bitacademy.projectboard.repository.UserAccountRepository;
 @ExtendWith(MockitoExtension.class)
 class ArticleServiceTest {
 
-    @InjectMocks private ArticleService sut; // test 대상 sut
+    @InjectMocks private ArticleService sut; // test 대상 sut(service under test)
 
     // 의존하는 곳 
+    // mockito란 Mock(진짜 객체 처럼 동작하지만 프로그래머가 직접 컨트롤 할 수 있는 객체)을 지원하는 프레임워크.
+    // Mock 객체를 만들고 관리하고 검증 할 수 있는 방법 제공.
+    // (가짜 객체를 만들어준다고 생각)
+    //구현체가 아직 없는 경우나, 구현체가 있더라도 특정 단위만 테스트 하고 싶을 경우 주로 사용한다.
     @Mock private ArticleRepository articleRepository;
     @Mock private UserAccountRepository userAccountRepository;
 
@@ -58,6 +62,7 @@ class ArticleServiceTest {
         then(articleRepository).should().findAll(pageable);
     }
 
+    // 검색 기능 
     @DisplayName("검색어와 함께 게시글을 검색하면, 게시글 페이지를 반환한다.")
     @Test
     void givenSearchParameters_whenSearchingArticles_thenReturnsArticlePage() {
