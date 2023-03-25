@@ -47,6 +47,8 @@ public class Article extends AuditingFields { // AuditingFields 상속으로 내
     @Setter @Column(nullable = false, length = 10000) private String content; // 본문
 
     @Setter private String hashtag; // 해시태그
+    
+    @Setter @Column(name = "hit", columnDefinition = "integer default 0")private Long hit; // 조회수 : int 말고 long을 쓰는 이유 = null 값일 때도 사용할 수 있게  
 
     // 양방향 binding - article에 연동되어 있는 comment들은 중복을 허용하지 않고 모아서 List로 보겠다. 
     @ToString.Exclude // 댓글로 부터 글을 참조 / 댓글 리스트를 다 뽑아 볼 필요가 없기 때문에 끊어준다 (Article_Comment로 들어갔다가 끊어준다) 
@@ -62,16 +64,17 @@ public class Article extends AuditingFields { // AuditingFields 상속으로 내
     // 도메인과 관련있는 것만 open
     protected Article() {}
 
-    private Article(UserAccount userAccount, String title, String content, String hashtag) {
+    private Article(UserAccount userAccount, String title, String content, String hashtag, Long hit) {
         this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
+        this.hit = hit;
     }
 
     // 도메인 article을 생성할 때 어떤 정보가 필요한지 guide
-    public static Article of(UserAccount userAccount, String title, String content, String hashtag) {
-        return new Article(userAccount, title, content, hashtag);
+    public static Article of(UserAccount userAccount, String title, String content, String hashtag, Long hit) {
+        return new Article(userAccount, title, content, hashtag, hit);
     }
 
     // 동등성 검사 

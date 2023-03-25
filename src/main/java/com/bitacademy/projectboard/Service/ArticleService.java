@@ -97,6 +97,7 @@ public class ArticleService {
     }
 
     // 게시글 삭제 기능 
+    // 게시글에서 삭제 부분 article id = user id 같을 때만 보이도록 
     public void deleteArticle(long articleId, String userId) {
         articleRepository.deleteByIdAndUserAccount_UserId(articleId, userId);
     }
@@ -121,5 +122,18 @@ public class ArticleService {
     public List<Article> getAll() {
     	return articleRepository.findAll();
     }
+    
+    // 게시판 조회수 
+//    @Transactional
+//    public void updateHit(Long articleId) {
+//        Article article = articleRepository.findById(articleId)
+//                .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다 - articleId: " + articleId));
+//        article.setHit(article.getHit() + 1);
+//        articleRepository.save(article);
+//    }
+    public void updateHit(Long id) {
+    	articleRepository.updateHit(id);
+    }
+    
 
 }

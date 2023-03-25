@@ -8,11 +8,12 @@ import com.bitacademy.projectboard.dto.UserAccountDto;
 public record ArticleRequest(
         String title,
         String content,
-        String hashtag
+        String hashtag,
+        Long hit
 ) {
 
-    public static ArticleRequest of(String title, String content, String hashtag) {
-        return new ArticleRequest(title, content, hashtag);
+    public static ArticleRequest of(String title, String content, String hashtag, Long hit) {
+        return new ArticleRequest(title, content, hashtag, hit);
     }
 
     public ArticleDto toDto(UserAccountDto userAccountDto) {
@@ -20,7 +21,8 @@ public record ArticleRequest(
                 userAccountDto,
                 title,
                 content,
-                hashtag
+                hashtag,
+                hit
         );
     }
 

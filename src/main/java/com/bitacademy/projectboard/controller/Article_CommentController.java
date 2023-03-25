@@ -41,7 +41,7 @@ import com.bitacademy.projectboard.dto.security.BoardPrincipal;
 //
 //}
 
-
+// 이거 써야 함 
 @RequestMapping("/comments")
 @RestController
 public class Article_CommentController {
@@ -52,6 +52,8 @@ public class Article_CommentController {
     	this.article_CommentService = article_CommentService;
     }
 
+    // 댓글 달기 구현 
+    // 댓글은 새로운 내용이므로 new 
     @PostMapping ("/new")
     public void postNewArticle_Comment(
             @AuthenticationPrincipal BoardPrincipal boardPrincipal,
@@ -71,3 +73,5 @@ public class Article_CommentController {
     }
 
 }
+
+

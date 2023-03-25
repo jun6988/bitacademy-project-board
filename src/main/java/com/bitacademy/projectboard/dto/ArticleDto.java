@@ -16,18 +16,19 @@ public record ArticleDto(
         String title,
         String content,
         String hashtag,
+        Long hit,
         LocalDateTime createdAt,
         String createdBy,
         LocalDateTime modifiedAt,
         String modifiedBy
 ) {
 
-    public static ArticleDto of(UserAccountDto userAccountDto, String title, String content, String hashtag) {
-        return new ArticleDto(null, userAccountDto, title, content, hashtag, null, null, null, null);
+    public static ArticleDto of(UserAccountDto userAccountDto, String title, String content, String hashtag, Long hit) {
+        return new ArticleDto(null, userAccountDto, title, content, hashtag, hit, null, null, null, null);
     }
 
-    public static ArticleDto of(Long id, UserAccountDto userAccountDto, String title, String content, String hashtag, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
-        return new ArticleDto(id, userAccountDto, title, content, hashtag, createdAt, createdBy, modifiedAt, modifiedBy);
+    public static ArticleDto of(Long id, UserAccountDto userAccountDto, String title, String content, String hashtag, Long hit, LocalDateTime createdAt, String createdBy, LocalDateTime modifiedAt, String modifiedBy) {
+        return new ArticleDto(id, userAccountDto, title, content, hashtag, hit, createdAt, createdBy, modifiedAt, modifiedBy);
     }
 
     // 자기 자신을 entity로 부터 반환한다. 
@@ -40,6 +41,7 @@ public record ArticleDto(
                 entity.getTitle(),
                 entity.getContent(),
                 entity.getHashtag(),
+                entity.getHit(),
                 entity.getCreatedAt(),
                 entity.getCreatedBy(),
                 entity.getModifiedAt(),
@@ -53,7 +55,8 @@ public record ArticleDto(
                 userAccount,
                 title,
                 content,
-                hashtag
+                hashtag,
+                hit
         );
     }
 

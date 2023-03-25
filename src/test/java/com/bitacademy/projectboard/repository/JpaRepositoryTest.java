@@ -60,7 +60,7 @@ class JpaRepositoryTest {
         // Given - 기존 갯수를 count 후 insert 하면 숫자가 하나 늘었다.   
         long previousCount = articleRepository.count(); 
         UserAccount userAccount = userAccountRepository.save(UserAccount.of("newUno", "pw", null, null, null));
-        Article article = Article.of(userAccount, "new article", "new content", "#spring");
+        Article article = Article.of(userAccount, "new article", "new content", "#spring", null);
 
         // When
         articleRepository.save(article);

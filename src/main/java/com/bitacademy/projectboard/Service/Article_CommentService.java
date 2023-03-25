@@ -39,7 +39,9 @@ public class Article_CommentService {
 
     public void saveArticle_Comment(Article_CommentDto dto) {
         try {
+        	// 게시글 정보 가져온 것 
             Article article = articleRepository.getReferenceById(dto.articleId());
+            // 댓글 단 user 정보 가져온 것   	
             UserAccount userAccount = userAccountRepository.getReferenceById(dto.userAccountDto().userId());
             article_CommentRepository.save(dto.toEntity(article, userAccount));
         } catch (EntityNotFoundException e) {

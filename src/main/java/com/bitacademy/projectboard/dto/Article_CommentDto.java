@@ -30,6 +30,7 @@ public record Article_CommentDto(
         String modifiedBy
 ) {
 
+	// user 정보 없을 때 넣을 수 없는 데이터 값 = null (articlecommentrequest)
     public static Article_CommentDto of(Long articleId, UserAccountDto userAccountDto, String content) {
         return new Article_CommentDto(null, articleId, userAccountDto, content, null, null, null, null);
     }

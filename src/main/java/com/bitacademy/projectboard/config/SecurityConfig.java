@@ -18,7 +18,7 @@ import com.bitacademy.projectboard.repository.UserAccountRepository;
 @Configuration
 public class SecurityConfig {
 	
-// localhost8080/articles 찍으면 login page 안나온다. 
+ //localhost8080/articles 찍으면 login page 안나온다. 
 //	@Bean
 //	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        return http
@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .mvcMatchers(
-                                HttpMethod.GET,
+                                HttpMethod.GET, // post 삭제 수정 추가 할 때 권한 check 
                                 "/",
                                 "/articles",
                                 "/articles/search-hashtag"
@@ -48,6 +48,8 @@ public class SecurityConfig {
                 .build();
     }
 
+    // 인증 데이터 가져오 service로직 
+    // Boardprincipal 필요 
     @Bean
     public UserDetailsService userDetailsService(UserAccountRepository userAccountRepository) {
         return username -> userAccountRepository

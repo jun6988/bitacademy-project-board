@@ -3,9 +3,12 @@ package com.bitacademy.projectboard.repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import com.bitacademy.projectboard.domain.Article;
@@ -28,6 +31,7 @@ public interface ArticleRepository extends
     Page<Article> findByUserAccount_NicknameContaining(String nickname, Pageable pageable);
     Page<Article> findByHashtag(String hashtag, Pageable pageable);
 
+    // 게시글에서 삭제 부분 article id = user id 같을 때만 보이도록 
     void deleteByIdAndUserAccount_UserId(Long articleId, String userid);
 
     @Override
@@ -43,5 +47,17 @@ public interface ArticleRepository extends
         bindings.bind(root.createdAt).first(DateTimeExpression::eq);
         bindings.bind(root.createdBy).first(StringExpression::containsIgnoreCase);
     }
-
+    
+    @Modifying
+    @Query("UPDATE Article a SET a.hit = a.hit + 1 WHERE a.id = :id")
+    void updateHit(@Param("id") Long id);
 }
+    
+    // 게시글 조회수 증가 기능
+//    Article findByIdAndUserAccount_UserId(Long articleId, String userId);
+//    default Article updateHit(Long articleId, String userId) {
+//        Article article = findByIdAndUserAccount_UserId(articleId, userId);
+//        article.setHit(article.getHit() + 1);
+//        return save(article);
+//    }
+
